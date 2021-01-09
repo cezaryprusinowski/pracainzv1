@@ -1,13 +1,21 @@
 package com.example.pracainzv1;
 
-import android.app.Activity;
 import android.os.Bundle;
 
-public class HideActivity extends Activity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class HideActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_hide);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .setReorderingAllowed(true)
+                    .add(R.id.frame_SelectFile, SelectFileFragment.class, null)
+                    .commit();
+        }
     }
 }

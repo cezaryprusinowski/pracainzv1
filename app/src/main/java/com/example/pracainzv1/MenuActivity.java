@@ -1,6 +1,7 @@
 package com.example.pracainzv1;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -25,7 +26,8 @@ public class MenuActivity extends Activity {
         binding.btnMenuHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MenuActivity.this, "Hide", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MenuActivity.this,HideActivity.class);
+                startActivity(intent);
             }
         });
 
