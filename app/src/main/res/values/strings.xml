@@ -3,4 +3,15 @@
     <string name="btnMenuUnhide">Odkryj</string>
     <string name="btnMenuStat">Statystyki</string>
     <string name="btnMenuHide">Ukryj</string>
+    <string name="tvSelectFileHeader">Wybierz kontener na wiadomość</string>
+    <string name="tvSelectFileFragment_FileNameHeader">Nazwa pliku:</string>
+    <string name="tvSelectFileFragment_FileSizeHeader">Rozmiar pliku:</string>
+    <string name="tvSelectFileFragment_MaxSignsHeader">Dozwolona ilość znaków:</string>
+    <string name="temp">temp</string>
+    <string name="tvSelectTextFragment_Header">Wprowadź wiadomość</string>
+    <string name="rbSelectTextFragment_TextFromFile">Wybierz lokalizację pliku z tekstem</string>
+    <string name="rbSelectTextFragment_TextFromInput">Wprowadź wiadomość ręcznie</string>
+    <string name="tvSelectTextFragment_FileNameHeader">Nazwa pliku:</string>
+    <string name="tvSelectTextFragment_FileSizeHeader">Rozmiar:</string>
+    <string name="tvSelectTextFragment_TextLength">Ilość znaków:</string>
 </resources>

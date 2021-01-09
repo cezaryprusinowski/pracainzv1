@@ -15,6 +15,7 @@ public class HideActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.frame_SelectFile, SelectFileFragment.class, null)
+                    .add(R.id.frame_SelectText, SelectTextFragment.class, null)
                     .commit();
         }
     }
