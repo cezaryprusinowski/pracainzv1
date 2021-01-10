@@ -15,5 +15,33 @@
         android:layout_height="wrap_content"
         android:id="@+id/frame_SelectText"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FileName"/>
+    <TextView
+        android:id="@+id/VMFileName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="FilePath"/>
+    <TextView
+        android:id="@+id/VMFilePath"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/btnHideActivity_Execute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnHideActivity_Execute"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
 
 </LinearLayout>
