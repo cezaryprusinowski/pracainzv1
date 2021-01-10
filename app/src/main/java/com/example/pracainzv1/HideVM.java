@@ -22,10 +22,7 @@ public class HideVM extends ViewModel {
                     (byte) 12,
                     12);
         }
-//        var temp = contenerFileMutableLiveData.getValue();
-//        if (temp == null) {
-//            contenerFileMutableLiveData.setValue(contenerFile);
-//        }
+        contenerFileMutableLiveData.setValue(contenerFile);
     }
 
 
