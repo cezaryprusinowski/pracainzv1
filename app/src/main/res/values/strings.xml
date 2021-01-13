@@ -15,4 +15,5 @@
     <string name="tvSelectTextFragment_FileSizeHeader">Rozmiar:</string>
     <string name="tvSelectTextFragment_TextLength">Ilość znaków:</string>
     <string name="btnHideActivity_Execute">Wykonaj</string>
+    <string name="btnHideActivity_ChooseFile">Wybierz plik</string>
 </resources>
