@@ -1,64 +1,37 @@
 package com.example.pracainzv1;
 
+import android.net.Uri;
+
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 //public class ContainerFile extends File {
 public class ContainerFile {
 
-    private String FileName;
-    private String FilePath;
-    private long FileBytesCount;
-    private int AvailableChars;
+    private final String inFileName;
+    private final FileInputStream inContainerFileInputStream;
+    private final byte[] inContainerFileByteArray;
 
-    public ContainerFile(String fileName, String filePath, long fileBytesCount, int avalibleChars) {
-        FileName = fileName;
-        FilePath = filePath;
-        FileBytesCount = fileBytesCount;
-        AvailableChars = avalibleChars;
+    public ContainerFile(String fileName, FileInputStream fileInputStream) throws IOException {
+        inFileName = fileName;
+        inContainerFileInputStream = fileInputStream;
+        inContainerFileByteArray = IOUtils.toByteArray(inContainerFileInputStream);
     }
 
-    public ContainerFile(String fileName, String filePath) {
-        FileName = fileName;
-        FilePath = filePath;
+    public String getInFileName() {
+        return inFileName;
     }
 
-    public ContainerFile(String fileName, String filePath, long fileBytesCount) {
-        FileName = fileName;
-        FilePath = filePath;
-        FileBytesCount = fileBytesCount;
+    public FileInputStream getInContainerFileInputStream() {
+        return inContainerFileInputStream;
     }
 
-    public String getFileName() {
-        return FileName;
-    }
-
-    public void setFileName(String fileName) {
-        FileName = fileName;
-    }
-
-    public String getFilePath() {
-        return FilePath;
-    }
-
-    public void setFilePath(String filePath) {
-        FilePath = filePath;
-    }
-
-    public long getFileBytesCount() {
-        return FileBytesCount;
-    }
-
-    public String getFileBytesCountString() {
-        return (FileBytesCount+"");
-    }
-
-    public void setFileBytesCount(long fileBytesCount) {
-        FileBytesCount = fileBytesCount;
-    }
-
-    public int getAvailableChars() {
-        return AvailableChars;
-    }
-
-    public void setAvailableChars(int availableChars) {
-        AvailableChars = availableChars;
+    public byte[] getInContainerFileByteArray() {
+        return inContainerFileByteArray;
     }
 }

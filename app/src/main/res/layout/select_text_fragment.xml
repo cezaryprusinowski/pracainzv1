@@ -12,19 +12,28 @@
         android:layout_gravity="center"
         android:textSize="20sp"/>
 
-    <RadioGroup
+<!--    <RadioGroup-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical">-->
+<!--        <RadioButton android:id="@+id/rbSelectTextFragment_TextFromFile"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/rbSelectTextFragment_TextFromFile"/>-->
+<!--        <RadioButton android:id="@+id/rbSelectTextFragment_TextFromInput"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/rbSelectTextFragment_TextFromInput" />-->
+<!--    </RadioGroup>-->
+
+    <ImageButton
+        android:id="@+id/btnTextFile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <RadioButton android:id="@+id/rbSelectTextFragment_TextFromFile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rbSelectTextFragment_TextFromFile"/>
-        <RadioButton android:id="@+id/rbSelectTextFragment_TextFromInput"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/rbSelectTextFragment_TextFromInput" />
-    </RadioGroup>
+        android:layout_height="100dp"
+        android:src="@drawable/image_button_text_file"
+        android:scaleType="fitCenter"
+        android:layout_marginStart="5dp"
+        />
 
     <RelativeLayout
         android:layout_width="wrap_content"

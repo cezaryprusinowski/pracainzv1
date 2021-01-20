@@ -1,40 +1,150 @@
 package com.example.pracainzv1;
 
 import android.net.Uri;
+import android.os.Build;
+import android.util.Log;
+import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import org.apache.commons.io.IOUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
+import java.math.BigInteger;
+import java.nio.ByteBuffer;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.BitSet;
 
 public class HideVM extends ViewModel {
     public MutableLiveData<ContainerFile> containerFileMutableLiveData;
+    public MutableLiveData<TextFile> textFileMutableLiveData;
+    ContainerFile containerFile;
+    TextFile textFile;
 //    private String filePath="/data/data/com.example.pracainzv1/files/foo.txt";
-    private ContainerFile containerFile;
+//    private ContainerFile containerFile;
 
 
     public HideVM() {
-        containerFileMutableLiveData = new MutableLiveData<ContainerFile>();
+        containerFileMutableLiveData = new MutableLiveData<>();
+        textFileMutableLiveData = new MutableLiveData<>();
     }
 
 
-    public void setContainerFile(Uri fileData){
-        //BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        File file = new File(fileData.getPath());
-//        boolean check =  file.getAbsoluteFile().exists();
-        //if (containerFile == null) {
-            containerFile = new ContainerFile(
-                    file.getName(),
-                    file.getPath(),
-                    file.length());
-        //}
+    public void setContainerFile(String fileName, FileInputStream fileInputStream) throws IOException {
+        containerFile = new ContainerFile(fileName, fileInputStream);
         containerFileMutableLiveData.setValue(containerFile);
+    }
+
+    public void setTextFile(String fileName, FileInputStream fileInputStream) throws IOException {
+        textFile = new TextFile(fileName, fileInputStream);
+        textFileMutableLiveData.setValue(textFile);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void hideMessageAndGenerateFile (File androidFilesDir) throws IOException {
+        byte[] TextMessageBytes = textFile.getInTextFileByteArray();
+        byte[] ContainerFileBytes = containerFile.getInContainerFileByteArray();
+        byte[] MessageFlagBytes = "FLAG".getBytes();
+        byte[] MessageWithFlagsBytes = ByteBuffer.allocate(TextMessageBytes.length + MessageFlagBytes.length + MessageFlagBytes.length)
+                        .put(MessageFlagBytes)
+                        .put(TextMessageBytes)
+                        .put(MessageFlagBytes)
+                        .array();
+        BitSet containerByteBitSet = BitSet.valueOf(ContainerFileBytes);
+        BitSet messageBitSet = BitSet.valueOf(MessageWithFlagsBytes);
+        byte[] StartOfData = "FFDA".getBytes();
+
+        byte[] part = Arrays.copyOfRange(ContainerFileBytes,0,50);
+        String s = new String(part);
+//        int index = indexOf(ContainerFileBytes,StartOfData);
+        Log.v("Test","asd");
+
+//        BitSet temp;
+//        boolean find = false;
+//        int startPossition = 0;
+//        for (int i=0; i<containerByteBitSet.length(); i++){
+//            temp = containerByteBitSet.get(i,i+StartOfDataBitSet.length());
+//            find = StartOfDataBitSet.equals(temp);
+//            startPossition=i;
+//
+//            if (find){
+//                Log.v("Test","Start position break: " + startPossition);
+//                break;
+//            }
+//        }
+//        temp = containerByteBitSet.get(1,1+StartOfDataBitSet.length());
+//        Log.v("Test","Temp: " + temp.length());
+//        Log.v("Test","Start: " + StartOfDataBitSet.length());
+//        Log.v("Test","Start position: " + startPossition);
+//        Log.v("Test","Start position + length: " + (startPossition + StartOfDataBitSet.length()));
+
+        /** MAIN */
+//        for (int i=0; i<messageBitSet.length(); i++){
+//            containerByteBitSet.set(i,messageBitSet.get(i));
+//        }
+//        ContainerFileBytes = containerByteBitSet.toByteArray();
+//        ByteArrayInputStream bis = new ByteArrayInputStream(ContainerFileBytes);
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+//        LocalDateTime localDateTime = LocalDateTime.now();
+//        File outFile = new File(androidFilesDir, "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg");
+//        FileOutputStream fos = new FileOutputStream(outFile);
+//        IOUtils.copy(bis,fos);
+        /** MAIN */
+
+        //        String messageByteString = "";
+//        String containerByteString = "";
+//        int progress = 0;
+//        for (byte b : MessageWithFlagsBytes){
+//            messageByteString = Integer.toBinaryString(b);
+////            Log.v("Test", "MessageFirstByteBinary: " + messageByteString);
+////            Log.v("Test", "MessageFirstByteString: " + String.valueOf(b));
+////            Log.v("Test", "ContainerFirstByteString: " + String.valueOf(ContainerFileBytes[progress]));
+////            Log.v("Test", "ContainerFirstByteBinary: " + Integer.toBinaryString(-1));
+////            b = (byte) (b | (1));
+////            Log.v("Test", "MessageLSBTo1: " + Integer.toBinaryString(b));
+////            b = (byte) (b & ~(1));
+////            b = (byte) (b & ~(1));
+////            Log.v("Test", "MessageLSBTo0: " + Integer.toBinaryString(b));
+////            break;
+//            for (char ch : messageByteString.toCharArray()){
+//                containerByteString = Integer.toBinaryString(ContainerFileBytes[progress]);
+//                containerByteString = containerByteString.substring(0, containerByteString.length()-1) + ch;
+//                ContainerFileBytes[progress] = Byte.parseByte(containerByteString,2);
+//                progress++;
+//            }
+//        }
+    }
+
+    public static int indexOf(byte[] array, byte[] target) {
+
+        if (target.length == 0) {
+            return 0;
+        }
+
+        outer:
+        for (int i = 0; i < array.length - target.length + 1; i++) {
+            for (int j = 0; j < target.length; j++) {
+                if (array[i + j] != target[j]) {
+                    continue outer;
+                }
+            }
+            return i;
+        }
+        return -1;
     }
 
 
