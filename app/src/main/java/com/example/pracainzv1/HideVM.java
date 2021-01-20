@@ -56,6 +56,7 @@ public class HideVM extends ViewModel {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void hideMessageAndGenerateFile (File androidFilesDir) throws IOException {
+        /** MAIN */
         byte[] TextMessageBytes = textFile.getInTextFileByteArray();
         byte[] ContainerFileBytes = containerFile.getInContainerFileByteArray();
         byte[] MessageFlagBytes = "FLAG".getBytes();
@@ -66,12 +67,36 @@ public class HideVM extends ViewModel {
                         .array();
         BitSet containerByteBitSet = BitSet.valueOf(ContainerFileBytes);
         BitSet messageBitSet = BitSet.valueOf(MessageWithFlagsBytes);
-        byte[] StartOfData = "FFDA".getBytes();
 
-        byte[] part = Arrays.copyOfRange(ContainerFileBytes,0,50);
-        String s = new String(part);
-//        int index = indexOf(ContainerFileBytes,StartOfData);
-        Log.v("Test","asd");
+        int indexOfBitStart = indexOfBytePictureMetadataStart(ContainerFileBytes) * 8;
+
+        /** CHECK */
+        int lengthBefore = containerByteBitSet.length();
+        /** CHECK */
+
+        //TODO zrobić pętlę na byte in ContainerFileBytes, każdy byte zapisać w byte[0], byte[0] zapisać do BiteSet, zmienić LSB, odwrotyn proces
+        for(int i=0; i<messageBitSet.length()+1; i++){
+                containerByteBitSet.set(i+indexOfBitStart,messageBitSet.get(i));
+        }
+        ContainerFileBytes = containerByteBitSet.toByteArray();
+        ByteArrayInputStream bis = new ByteArrayInputStream(ContainerFileBytes);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        LocalDateTime localDateTime = LocalDateTime.now();
+        File outFile = new File(androidFilesDir, "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg");
+        FileOutputStream fos = new FileOutputStream(outFile);
+        IOUtils.copy(bis,fos);
+        /** MAIN */
+
+        /** CHECK */
+        byte[] tempBytesArray = Arrays.copyOfRange(ContainerFileBytes,indexOfBytePictureMetadataStart(ContainerFileBytes),indexOfBytePictureMetadataStart(ContainerFileBytes) + MessageWithFlagsBytes.length);
+        String hidenMessage = new String(tempBytesArray);
+        Log.v("Test", "Ukryta wiadomość: " + hidenMessage);
+
+        int lengthAfter = containerByteBitSet.length();
+        Log.v("Test", "Długosć przed: " + lengthBefore);
+        Log.v("Test", "Długość po: " + lengthAfter);
+
+        /** CHECK */
 
 //        BitSet temp;
 //        boolean find = false;
@@ -92,18 +117,7 @@ public class HideVM extends ViewModel {
 //        Log.v("Test","Start position: " + startPossition);
 //        Log.v("Test","Start position + length: " + (startPossition + StartOfDataBitSet.length()));
 
-        /** MAIN */
-//        for (int i=0; i<messageBitSet.length(); i++){
-//            containerByteBitSet.set(i,messageBitSet.get(i));
-//        }
-//        ContainerFileBytes = containerByteBitSet.toByteArray();
-//        ByteArrayInputStream bis = new ByteArrayInputStream(ContainerFileBytes);
-//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
-//        LocalDateTime localDateTime = LocalDateTime.now();
-//        File outFile = new File(androidFilesDir, "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg");
-//        FileOutputStream fos = new FileOutputStream(outFile);
-//        IOUtils.copy(bis,fos);
-        /** MAIN */
+
 
         //        String messageByteString = "";
 //        String containerByteString = "";
@@ -144,6 +158,22 @@ public class HideVM extends ViewModel {
             }
             return i;
         }
+        return -1;
+    }
+
+    public static int indexOfBytePictureMetadataStart(byte[] array){
+        byte[] StartOfScan =new byte[] {(byte) 0xFF, (byte) 0xDA};
+
+        if (array.length == 0) {
+            return 0;
+        }
+
+        for(int i=0; i<array.length; i++){
+            if (array[i] == StartOfScan[0] && array[i+1] == StartOfScan[1] ){
+                return i+2+12;
+            }
+        }
+
         return -1;
     }
 
