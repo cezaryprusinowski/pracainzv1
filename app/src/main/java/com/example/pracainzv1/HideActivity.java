@@ -2,11 +2,10 @@ package com.example.pracainzv1;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 
 import androidx.annotation.RequiresApi;
@@ -16,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pracainzv1.databinding.ActivityHideBinding;
 
+import java.io.File;
 import java.io.IOException;
 
 public class HideActivity extends AppCompatActivity {
@@ -56,7 +56,8 @@ public class HideActivity extends AppCompatActivity {
 
         binding.btnHideActivityExecute.setOnClickListener( v -> {
             try {
-                hideVM.hideMessageAndGenerateFile(getFilesDir());
+                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+                hideVM.hideMessageAndGenerateFile(file);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -79,8 +80,8 @@ public class HideActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.frame_SelectFile, SelectFileFragment.class, null)
-                    .add(R.id.frame_SelectText, SelectTextFragment.class, null)
+                    .add(R.id.frame_SelectFileInHideActivity, SelectFileFragment.class, null)
+                    .add(R.id.frame_SelectTextFileInHideActivity, SelectTextFragment.class, null)
                     .commit();
         }
     }

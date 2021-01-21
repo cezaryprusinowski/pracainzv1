@@ -42,6 +42,7 @@ public class SelectFileFragment extends Fragment {
 
     private SelectFileFragmentBinding binding;
     private HideVM hideVM;
+    private UnhideVM unhideVM;
     private static final int PICKFILE_RESULT_CODE = 1;
 
     @Nullable
@@ -49,6 +50,7 @@ public class SelectFileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = SelectFileFragmentBinding.inflate(inflater,container,false);
         hideVM = new ViewModelProvider(requireActivity()).get(HideVM.class);
+        unhideVM = new ViewModelProvider(requireActivity()).get(UnhideVM.class);
 
         setListeners();
 
@@ -59,7 +61,7 @@ public class SelectFileFragment extends Fragment {
         binding.btnImage.setOnClickListener(v -> {
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-            chooseFile.setType("image/jpeg");
+            chooseFile.setType("*/*");
             startActivityForResult(
                     Intent.createChooser(chooseFile, "Choose a file"),
                     PICKFILE_RESULT_CODE
@@ -93,12 +95,25 @@ public class SelectFileFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK){
             Uri uri = data.getData();
-            try {
-                FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
-                hideVM.setContainerFile(uri.getLastPathSegment(),fileInputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
+
+            if (getActivity() instanceof HideActivity){
+                try {
+                    FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
+                    hideVM.setContainerFile(uri.getLastPathSegment(),fileInputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+            else if (getActivity() instanceof UnhideActivity){
+                try {
+                    FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
+                    unhideVM.setContainerFile(uri.getLastPathSegment(),fileInputStream);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
 //            Uri fileData = data.getData();
 //            String filePath = fileData.getPath();
 

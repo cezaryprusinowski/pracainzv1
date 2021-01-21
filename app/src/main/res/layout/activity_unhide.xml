@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/frame_SelectFileInUnhideActivity"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Container"/>
+    <TextView
+        android:id="@+id/tvContainerWithMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Text wiadomosci: "/>
+    <TextView
+        android:id="@+id/tvMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        />
+
+    <Button
+        android:id="@+id/btnUnhideActivity_Execute"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/btnHideActivity_Execute"
+        android:textSize="20sp"
+        android:layout_gravity="center"/>
+
+
+</LinearLayout>

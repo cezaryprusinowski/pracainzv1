@@ -34,7 +34,8 @@ public class MenuActivity extends Activity {
         binding.btnMenuUnhide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MenuActivity.this, "Unhide", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MenuActivity.this, UnhideActivity.class);
+                startActivity(intent);
             }
         });
 

@@ -8,12 +8,12 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/frame_SelectFile"/>
+        android:id="@+id/frame_SelectFileInHideActivity"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/frame_SelectText"/>
+        android:id="@+id/frame_SelectTextFileInHideActivity"/>
 
     <TextView
         android:layout_width="wrap_content"
