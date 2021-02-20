@@ -55,7 +55,7 @@ public class HideVM extends ViewModel {
     }
 
     public void hideMessageAndGenerateFile (){
-        ImageFileDataOperations imageFileDataOperations = new ImageFileDataOperations(containerFile);
+        ImageFileDataOperations imageFileDataOperations = new ImageFileDataOperations(containerFile, textFile);
         imageFileDataOperations.run();
     }
 
