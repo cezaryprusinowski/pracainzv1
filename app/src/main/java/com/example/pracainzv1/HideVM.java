@@ -54,9 +54,15 @@ public class HideVM extends ViewModel {
         textFileMutableLiveData.setValue(textFile);
     }
 
-    public void hideMessageAndGenerateFile (){
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public void hideMessageAndGenerateFile () throws Exception {
         ImageFileDataOperations imageFileDataOperations = new ImageFileDataOperations(containerFile, textFile);
-        imageFileDataOperations.run();
+        ByteBuffer byteBuffer1 = ByteBuffer.wrap(containerFile.getInContainerFileByteArray());
+        ByteBuffer byteBuffer2 = ByteBuffer.wrap(textFile.getInTextFileByteArray());
+
+//        imageFileDataOperations.run();
+        OutputData outputData = new OutputData(byteBuffer1, byteBuffer2);
+        outputData.run();
     }
 
 

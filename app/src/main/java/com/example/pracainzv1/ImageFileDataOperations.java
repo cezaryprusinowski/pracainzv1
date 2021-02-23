@@ -23,12 +23,11 @@ public class ImageFileDataOperations {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void run(){
 
-//        logInputImageDataAsHex();
+        //logInputImageDataAsHex();
         //logShowInputDataAsBinaryString(InputImageDataByteBuffer,0,4000);
-        String s = logInputDataAsBitSetString(InputTextDataByteBuffer);
+        //String s = logInputDataAsBitSetString(InputTextDataByteBuffer);
 
-
-        Log.v("1", s);
+        //Log.v("1", s);
     }
 
     private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer){
@@ -97,9 +96,6 @@ public class ImageFileDataOperations {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private String logInputDataAsBitSetString(ByteBuffer byteBuffer){
-
-
-
         BitSet bitSet = BitSet.valueOf(byteBuffer);
         int nbits= byteBuffer.remaining()*8;
         final StringBuilder buffer = new StringBuilder(nbits);
@@ -120,7 +116,6 @@ public class ImageFileDataOperations {
 
             i = i+7;
         }
-
 
         return new String(result);
     }
