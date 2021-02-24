@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.math.BigInteger;
 import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.WritableByteChannel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -54,15 +56,29 @@ public class HideVM extends ViewModel {
         textFileMutableLiveData.setValue(textFile);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public void hideMessageAndGenerateFile () throws Exception {
-        ImageFileDataOperations imageFileDataOperations = new ImageFileDataOperations(containerFile, textFile);
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void hideMessageAndGenerateFile (File androidFilesDirectory) throws Exception {
+//        WriteLog imageFileDataOperations = new WriteLog(containerFile, textFile);
+//        imageFileDataOperations.run();
+
         ByteBuffer byteBuffer1 = ByteBuffer.wrap(containerFile.getInContainerFileByteArray());
         ByteBuffer byteBuffer2 = ByteBuffer.wrap(textFile.getInTextFileByteArray());
 
-//        imageFileDataOperations.run();
         OutputData outputData = new OutputData(byteBuffer1, byteBuffer2);
-        outputData.run();
+        ByteBuffer outputDataByteBuffer = outputData.run();
+
+        File OutputFile = new File(androidFilesDirectory, createOutputFileName());
+        FileOutputStream fos = new FileOutputStream(OutputFile);
+
+        WritableByteChannel channel = Channels.newChannel(fos);
+        channel.write(outputDataByteBuffer);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public String createOutputFileName(){
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        LocalDateTime localDateTime = LocalDateTime.now();
+        return "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg";
     }
 
 

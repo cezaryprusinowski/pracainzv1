@@ -83,7 +83,9 @@ public class HideVM_copy extends ViewModel {
         ByteArrayInputStream bis = new ByteArrayInputStream(ContainerFileBytes);
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
         LocalDateTime localDateTime = LocalDateTime.now();
-        File outFile = new File(androidFilesDir, "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg");
+        String outputFileName = "STENO_" + dateTimeFormatter.format(localDateTime) + ".jpg";
+
+        File outFile = new File(androidFilesDir, outputFileName);
         FileOutputStream fos = new FileOutputStream(outFile);
         IOUtils.copy(bis,fos);
         /** MAIN */

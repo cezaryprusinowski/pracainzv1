@@ -1,14 +1,12 @@
 package com.example.pracainzv1;
 
-import android.util.Log;
-
 import java.nio.ByteBuffer;
+import java.util.BitSet;
 
 public class OutputData {
     private final ByteBuffer inputContainerDataByteBuffer;
     private final ByteBuffer inputTextDataByteBuffer;
     private ByteBuffer messageWithFlagsByteBuffer;
-    private ByteBuffer outputFileDataByteBuffer;
     private final byte[] messageFlag = "FLAG".getBytes();
     private int endOfMetadataIndex;
 
@@ -18,7 +16,7 @@ public class OutputData {
         this.inputTextDataByteBuffer = inputTextDataByteBuffer;
     }
 
-    public void run() throws Exception {
+    public ByteBuffer run() throws Exception {
         endOfMetadataIndex = findEndOfImageMetadataIndex(inputContainerDataByteBuffer);
 
         if (endOfMetadataIndex <= 0)
@@ -26,8 +24,7 @@ public class OutputData {
 
         messageWithFlagsByteBuffer = addFlagsToMessageData(inputTextDataByteBuffer);
 
-        hideMessageDataInContainerData();
-
+        return hideMessageDataInContainerData();
     }
 
     private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer){
@@ -48,18 +45,20 @@ public class OutputData {
     }
 
     private ByteBuffer addFlagsToMessageData (ByteBuffer byteBuffer){
-//        Log.v("Byte", String.valueOf(byteBuffer.remaining()));
         return ByteBuffer.allocate(byteBuffer.remaining() + messageFlag.length + messageFlag.length)
                 .put(messageFlag)
                 .put(byteBuffer)
                 .put(messageFlag);
     }
 
-    private void hideMessageDataInContainerData(){
+    private ByteBuffer hideMessageDataInContainerData(){
+
         byte[] messageBytes = new byte[messageWithFlagsByteBuffer.position(0).remaining()];
         messageWithFlagsByteBuffer
                 .get(messageBytes)
                 .position(0);
+        BitSet messageWithFlagsBitSet = BitSet.valueOf(messageBytes);
+
         byte[] necessaryContainerBytes = new byte[inputContainerDataByteBuffer
                                                     .position(endOfMetadataIndex)
                                                     .limit(endOfMetadataIndex+messageBytes.length*8)
@@ -67,15 +66,26 @@ public class OutputData {
         inputContainerDataByteBuffer
                 .get(necessaryContainerBytes)
                 .position(endOfMetadataIndex)
-                .limit(endOfMetadataIndex+messageBytes.length*8*8);
+                .limit(endOfMetadataIndex+messageBytes.length*8);
 
+        for (int i=0; i<necessaryContainerBytes.length; i++){
+            if(messageWithFlagsBitSet.get(i))
+                //zamiana ostatniego bitu na 1
+                necessaryContainerBytes[i] = (byte) (necessaryContainerBytes[i] | (1));
+            else
+                //zamiana ostatniego bitu na 0
+                necessaryContainerBytes[i] = (byte) (necessaryContainerBytes[i] & ~(1));
+        }
 
-        Log.v("Byte", Integer.toBinaryString((messageBytes[3] & 0xFF) + 0x100).substring(1));
-//        messageBytes[1] = (byte) (messageBytes[0] | (1)); //zamiana ostatniego bitu na 1
-        messageBytes[3] = (byte) (messageBytes[0] & ~(1)); //zamiana ostatniego bitu na 0
-        Log.v("Byte", Integer.toBinaryString((messageBytes[3] & 0xFF) + 0x100).substring(1));
-        //TODO pętla na necessaryContainerBytes i pozmieniać lsb
-        //TODO necessaryContainerBytes wsadzić spowrotem do inputContainerDataByteBuffer
+        ByteBuffer byteBuffer = ByteBuffer.allocate(inputContainerDataByteBuffer
+                                                        .position(0)
+                                                        .limit(inputContainerDataByteBuffer.capacity())
+                                                        .remaining());
+        byteBuffer.put(inputContainerDataByteBuffer);
+        byteBuffer.position(endOfMetadataIndex).limit(endOfMetadataIndex+messageBytes.length*8);
+        byteBuffer.put(necessaryContainerBytes);
+        byteBuffer.position(0).limit(inputContainerDataByteBuffer.capacity());
 
+        return byteBuffer;
     }
 }

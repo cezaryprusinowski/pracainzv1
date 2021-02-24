@@ -57,8 +57,8 @@ public class HideActivity extends AppCompatActivity {
         binding.btnHideActivityExecute.setOnClickListener( v -> {
             try {
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-//                hideVM.hideMessageAndGenerateFile(file);
-                hideVM.hideMessageAndGenerateFile();
+                hideVM.hideMessageAndGenerateFile(file);
+//                hideVM.hideMessageAndGenerateFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }
