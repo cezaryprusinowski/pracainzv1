@@ -1,6 +1,7 @@
 package com.example.pracainzv1;
 
 import android.net.Uri;
+import android.util.Log;
 
 import org.apache.commons.io.IOUtils;
 
@@ -16,11 +17,15 @@ public class ContainerFile {
     private final String inFileName;
     private final FileInputStream inContainerFileInputStream;
     private final byte[] inContainerFileByteArray;
+    private FileType fileType;
+
+
 
     public ContainerFile(String fileName, FileInputStream fileInputStream) throws IOException {
         inFileName = fileName;
         inContainerFileInputStream = fileInputStream;
         inContainerFileByteArray = IOUtils.toByteArray(inContainerFileInputStream);
+        setFileType();
     }
 
     public String getInFileName() {
@@ -34,4 +39,28 @@ public class ContainerFile {
     public byte[] getInContainerFileByteArray() {
         return inContainerFileByteArray;
     }
+
+    public enum FileType { AUDIO, VIDEO, IMAGE, OTHER}
+
+    public FileType getFileType() {
+        return fileType;
+    }
+
+    public void setFileType() {
+        String extension = inFileName.substring(inFileName.lastIndexOf("."));
+        switch (extension) {
+            case ".jpg":
+                fileType = FileType.IMAGE;
+                break;
+            case ".mp3":
+                fileType = FileType.AUDIO;
+                break;
+            case ".mp4":
+                fileType = FileType.VIDEO;
+                break;
+            default:
+                fileType = FileType.OTHER;
+        }
+    }
+
 }

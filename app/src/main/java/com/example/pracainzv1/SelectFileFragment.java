@@ -61,7 +61,7 @@ public class SelectFileFragment extends Fragment {
         binding.btnImage.setOnClickListener(v -> {
             Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
             chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-            chooseFile.setType("*/*");
+            chooseFile.setType("image/jpeg");
             startActivityForResult(
                     Intent.createChooser(chooseFile, "Choose a file"),
                     PICKFILE_RESULT_CODE

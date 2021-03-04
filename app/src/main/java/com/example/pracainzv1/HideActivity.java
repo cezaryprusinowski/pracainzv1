@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -56,8 +57,15 @@ public class HideActivity extends AppCompatActivity {
 
         binding.btnHideActivityExecute.setOnClickListener( v -> {
             try {
-                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
-                hideVM.hideMessageAndGenerateFile(file);
+                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+                int result = hideVM.hideMessageAndGenerateFile(file);
+
+                if (result == 0){
+                    Toast.makeText(this, "Plik został wygenerowany", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(this, "Nieobsługiwany format pliku", Toast.LENGTH_LONG).show();
+                }
 //                hideVM.hideMessageAndGenerateFile();
             } catch (Exception e) {
                 e.printStackTrace();
