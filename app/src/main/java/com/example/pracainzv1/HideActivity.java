@@ -57,7 +57,9 @@ public class HideActivity extends AppCompatActivity {
 
         binding.btnHideActivityExecute.setOnClickListener( v -> {
             try {
-                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+
+
                 int result = hideVM.hideMessageAndGenerateFile(file);
 
                 if (result == 0){

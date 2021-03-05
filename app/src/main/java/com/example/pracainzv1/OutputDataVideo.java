@@ -1,9 +1,11 @@
 package com.example.pracainzv1;
 
+import android.util.Log;
+
 import java.nio.ByteBuffer;
 import java.util.BitSet;
 
-public class OutputDataAudio extends OutputData{
+public class OutputDataVideo extends OutputData{
     private final ByteBuffer inputContainerDataByteBuffer;
     private final ByteBuffer inputTextDataByteBuffer;
     private ByteBuffer messageWithFlagsByteBuffer;
@@ -11,7 +13,7 @@ public class OutputDataAudio extends OutputData{
     private int endOfMetadataIndex;
 
 
-    public OutputDataAudio(ByteBuffer inputContainerDataByteBuffer, ByteBuffer inputTextDataByteBuffer) {
+    public OutputDataVideo(ByteBuffer inputContainerDataByteBuffer, ByteBuffer inputTextDataByteBuffer) {
         this.inputContainerDataByteBuffer = inputContainerDataByteBuffer;
         this.inputTextDataByteBuffer = inputTextDataByteBuffer;
     }
@@ -28,8 +30,25 @@ public class OutputDataAudio extends OutputData{
     }
 
     private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer){
-        
-        return 32;
+        byte[] startOfImageDataMarker =new byte[] {(byte) 0x6D, (byte) 0x64, (byte) 0x61, (byte) 0x74};
+        byte[] bytes = new byte[byteBuffer.remaining()];
+        byteBuffer.get(bytes);
+
+        if (!byteBuffer.hasArray()) {
+            return 0;
+        }
+
+        int skipFirstMatch = 0;
+        for(int i=0; i<bytes.length; i++){
+            if (bytes[i] == startOfImageDataMarker[0] && bytes[i+1] == startOfImageDataMarker[1] && bytes[i+2] == startOfImageDataMarker[2] && bytes[i+3] == startOfImageDataMarker[3] ){
+                skipFirstMatch=1;
+            }
+            if (skipFirstMatch==1 && bytes[i] == startOfImageDataMarker[0] && bytes[i+1] == startOfImageDataMarker[1] && bytes[i+2] == startOfImageDataMarker[2] && bytes[i+3] == startOfImageDataMarker[3] ){
+                Log.v("asd", String.valueOf(i+16));
+                return i+16;
+            }
+        }
+        return -1;
     }
 
     private ByteBuffer addFlagsToMessageData (ByteBuffer byteBuffer){

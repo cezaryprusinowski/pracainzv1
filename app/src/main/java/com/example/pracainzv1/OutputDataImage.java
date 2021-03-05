@@ -28,21 +28,21 @@ public class OutputDataImage extends OutputData{
     }
 
     private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer){
-//        byte[] startOfImageDataMarker =new byte[] {(byte) 0xFF, (byte) 0xDA};
-//        byte[] bytes = new byte[byteBuffer.remaining()];
-//        byteBuffer.get(bytes);
-//
-//        if (!byteBuffer.hasArray()) {
-//            return 0;
-//        }
-//
-//        for(int i=0; i<bytes.length; i++){
-//            if (bytes[i] == startOfImageDataMarker[0] && bytes[i+1] == startOfImageDataMarker[1] ){
-//                return i+16; // 16, ponieważ po ostatnim markerze, jest jeszcze 14 bajtów informacji + 2 bajty markera
-//            }
-//        }
+        byte[] startOfImageDataMarker =new byte[] {(byte) 0xFF, (byte) 0xDA};
+        byte[] bytes = new byte[byteBuffer.remaining()];
+        byteBuffer.get(bytes);
 
-        return 32;
+        if (!byteBuffer.hasArray()) {
+            return 0;
+        }
+
+        for(int i=0; i<bytes.length; i++){
+            if (bytes[i] == startOfImageDataMarker[0] && bytes[i+1] == startOfImageDataMarker[1] ){
+                return i+16; // 16, ponieważ po ostatnim markerze, jest jeszcze 14 bajtów informacji + 2 bajty markera
+            }
+        }
+
+        return -1;
     }
 
     private ByteBuffer addFlagsToMessageData (ByteBuffer byteBuffer){

@@ -58,9 +58,9 @@ public class HideVM extends ViewModel {
             case IMAGE:
                 outputData = new OutputDataImage(byteBuffer1, byteBuffer2);
                 break;
-//            case VIDEO:
-//                outputData = new OutputDataImage(byteBuffer1, byteBuffer2);
-//                break;
+            case VIDEO:
+                outputData = new OutputDataVideo(byteBuffer1, byteBuffer2);
+                break;
             default:
                 outputData = null;
         }
