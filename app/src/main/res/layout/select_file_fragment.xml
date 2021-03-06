@@ -4,13 +4,13 @@
     android:layout_height="wrap_content"
     android:background="#FFEB3B">
 
-    <TextView
-        android:id="@+id/tvSelectFileFragment_Header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tvSelectFileHeader"
-        android:layout_gravity="center"
-        android:textSize="20sp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tvSelectFileFragment_Header"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/tvSelectFileHeader"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:textSize="20sp"/>-->
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -87,25 +87,25 @@
         android:textSize="20sp"
         />
 
-    <TextView
-        android:id="@+id/tvSelectFileFragment_MaxSignsHeader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:layout_below="@id/tvSelectFileFragment_FileSizeHeader"
-        android:text="@string/tvSelectFileFragment_MaxSignsHeader"
-        android:textSize="20sp"/>
+<!--    <TextView-->
+<!--        android:id="@+id/tvSelectFileFragment_MaxSignsHeader"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="2dp"-->
+<!--        android:layout_below="@id/tvSelectFileFragment_FileSizeHeader"-->
+<!--        android:text="@string/tvSelectFileFragment_MaxSignsHeader"-->
+<!--        android:textSize="20sp"/>-->
 
-    <TextView
-        android:id="@+id/tvSelectFileFragment_MaxSignsDetails"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:layout_toEndOf="@id/tvSelectFileFragment_MaxSignsHeader"
-        android:layout_below="@id/tvSelectFileFragment_FileSizeHeader"
-        android:text="@string/temp"
-        android:textSize="20sp"
-        />
+<!--    <TextView-->
+<!--        android:id="@+id/tvSelectFileFragment_MaxSignsDetails"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="2dp"-->
+<!--        android:layout_toEndOf="@id/tvSelectFileFragment_MaxSignsHeader"-->
+<!--        android:layout_below="@id/tvSelectFileFragment_FileSizeHeader"-->
+<!--        android:text="@string/temp"-->
+<!--        android:textSize="20sp"-->
+<!--        />-->
     </RelativeLayout>
 
 </LinearLayout>

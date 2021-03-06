@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,22 +34,39 @@ public class SelectTextFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = SelectTextFragmentBinding.inflate(inflater,container,false);
         hideVM = new ViewModelProvider(requireActivity()).get(HideVM.class);
-
+        hideVM.setTextFile("");
         setListeners();
 
         return binding.getRoot();
     }
 
     private void setListeners() {
-        binding.btnTextFile.setOnClickListener(v -> {
-            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
-            chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
-            chooseFile.setType("text/*");
-            startActivityForResult(
-                    Intent.createChooser(chooseFile, "Choose a file"),
-                    PICKFILE_RESULT_CODE
-            );
+        binding.etSelectTextFragmentText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                Log.v("asd", String.valueOf(s));
+                hideVM.setTextFile(String.valueOf(s));
+            }
         });
+//        binding.btnTextFile.setOnClickListener(v -> {
+//            Intent chooseFile = new Intent(Intent.ACTION_GET_CONTENT);
+//            chooseFile.addCategory(Intent.CATEGORY_OPENABLE);
+//            chooseFile.setType("text/*");
+//            startActivityForResult(
+//                    Intent.createChooser(chooseFile, "Choose a file"),
+//                    PICKFILE_RESULT_CODE
+//            );
+//        });
     }
 
     @Override

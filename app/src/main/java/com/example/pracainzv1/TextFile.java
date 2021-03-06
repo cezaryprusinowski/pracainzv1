@@ -21,6 +21,12 @@ public class TextFile {
         inTextFileByteArray = IOUtils.toByteArray(inTextFileInputStream);
     }
 
+    public TextFile(String text){
+        inFileName = "temp";
+        inTextFileInputStream = null;
+        inTextFileByteArray = text.getBytes();
+    }
+
     public String getInFileName() {
         return inFileName;
     }

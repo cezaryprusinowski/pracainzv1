@@ -41,6 +41,11 @@ public class HideVM extends ViewModel {
         textFileMutableLiveData.setValue(textFile);
     }
 
+    public void setTextFile(String text) {
+        textFile = new TextFile(text);
+        textFileMutableLiveData.setValue(textFile);
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     public int hideMessageAndGenerateFile (File androidFilesDirectory) throws Exception {
 //        WriteLog imageFileDataOperations = new WriteLog(containerFile, textFile);

@@ -44,7 +44,6 @@ public class OutputDataVideo extends OutputData{
                 skipFirstMatch=1;
             }
             if (skipFirstMatch==1 && bytes[i] == startOfImageDataMarker[0] && bytes[i+1] == startOfImageDataMarker[1] && bytes[i+2] == startOfImageDataMarker[2] && bytes[i+3] == startOfImageDataMarker[3] ){
-                Log.v("asd", String.valueOf(i+16));
                 return i+16;
             }
         }

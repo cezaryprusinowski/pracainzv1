@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.pracainzv1.databinding.ActivityHideBinding;
 
 import java.io.File;
-import java.io.IOException;
 
 public class HideActivity extends AppCompatActivity {
 
@@ -45,30 +44,35 @@ public class HideActivity extends AppCompatActivity {
 
         hideVM = new ViewModelProvider(this).get(HideVM.class);
 
-        hideVM.containerFileMutableLiveData.observe(this, data ->{
-            binding.tvContainer.setText(data.getInFileName());
-            binding.tvContainerBytes.setText(Integer.toString(data.getInContainerFileByteArray().length));
-        });
+//        hideVM.containerFileMutableLiveData.observe(this, data ->{
+//            binding.tvContainer.setText(data.getInFileName());
+//            binding.tvContainerBytes.setText(Integer.toString(data.getInContainerFileByteArray().length));
+//        });
 
-        hideVM.textFileMutableLiveData.observe(this, data ->{
-            binding.tvText.setText(data.getInFileName());
-            binding.tvTextBytes.setText(Integer.toString(data.getInTextFileByteArray().length));
-        });
+//        hideVM.textFileMutableLiveData.observe(this, data ->{
+//            binding.tvText.setText(data.getInFileName());
+//            binding.tvTextBytes.setText(Integer.toString(data.getInTextFileByteArray().length));
+//        });
 
         binding.btnHideActivityExecute.setOnClickListener( v -> {
             try {
                 File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
 
-
-                int result = hideVM.hideMessageAndGenerateFile(file);
-
-                if (result == 0){
-                    Toast.makeText(this, "Plik został wygenerowany", Toast.LENGTH_LONG).show();
+                if (hideVM.containerFile == null){
+                    Toast.makeText(this, "Wybierz plik", Toast.LENGTH_LONG).show();
                 }
-                else {
-                    Toast.makeText(this, "Nieobsługiwany format pliku", Toast.LENGTH_LONG).show();
-                }
+                else{
+                    int result = hideVM.hideMessageAndGenerateFile(file);
+
+                    if (result == 0){
+                        Toast.makeText(this, "Plik został wygenerowany", Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        Toast.makeText(this, "Nieobsługiwany format pliku", Toast.LENGTH_LONG).show();
+                    }
 //                hideVM.hideMessageAndGenerateFile();
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -92,7 +96,7 @@ public class HideActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.frame_SelectFileInHideActivity, SelectFileFragment.class, null)
-                    .add(R.id.frame_SelectTextFileInHideActivity, SelectTextFragment.class, null)
+                    .add(R.id.frame_SelectTextInHideActivity, SelectTextFragment.class, null)
                     .commit();
         }
     }

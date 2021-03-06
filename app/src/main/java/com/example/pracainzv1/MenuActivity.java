@@ -42,7 +42,7 @@ public class MenuActivity extends Activity {
         binding.btnMenuStat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MenuActivity.this, "Stat", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MenuActivity.this, "Statystyki", Toast.LENGTH_SHORT).show();
             }
         });
     }

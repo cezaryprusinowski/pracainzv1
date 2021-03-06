@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -49,14 +50,19 @@ public class UnhideActivity extends AppCompatActivity {
 
     private void setListeners() {
         binding.btnUnhideActivityExecute.setOnClickListener(v -> {
-            unhideVM.readMessage();
+            if (unhideVM.containerFile == null){
+                Toast.makeText(this, "Wybierz plik", Toast.LENGTH_LONG).show();
+            }
+            else{
+                unhideVM.readMessage();
+            }
         });
     }
 
     private void setObservers() {
-        unhideVM.containerFileMutableLiveData.observe(this, data ->{
-            binding.tvContainerWithMessage.setText(data.getInFileName());
-        });
+//        unhideVM.containerFileMutableLiveData.observe(this, data ->{
+//            binding.tvContainerWithMessage.setText(data.getInFileName());
+//        });
 
         unhideVM.messageFromFileMutableLiveData.observe(this, data ->{
             binding.tvMessageText.setText(data);

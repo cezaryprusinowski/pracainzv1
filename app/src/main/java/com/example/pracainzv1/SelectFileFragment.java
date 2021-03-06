@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.text.DecimalFormat;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -51,6 +52,28 @@ public class SelectFileFragment extends Fragment {
         binding = SelectFileFragmentBinding.inflate(inflater,container,false);
         hideVM = new ViewModelProvider(requireActivity()).get(HideVM.class);
         unhideVM = new ViewModelProvider(requireActivity()).get(UnhideVM.class);
+
+        hideVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data ->{
+            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/")+1);
+            binding.tvSelectFileFragmentFileNameDetails.setText(fileName);
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            float fileSizeByte = data.getInContainerFileByteArray().length;
+            double fileSizeMB = fileSizeByte/1000000;
+            String fileSize = df.format(fileSizeMB) + " MB";
+            binding.tvSelectFileFragmentFileSizeDetails.setText(fileSize);
+        });
+
+        unhideVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data ->{
+            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/")+1);
+            binding.tvSelectFileFragmentFileNameDetails.setText(fileName);
+
+            DecimalFormat df = new DecimalFormat("0.00");
+            float fileSizeByte = data.getInContainerFileByteArray().length;
+            double fileSizeMB = fileSizeByte/1000000;
+            String fileSize = df.format(fileSizeMB) + " MB";
+            binding.tvSelectFileFragmentFileSizeDetails.setText(fileSize);
+        });
 
         setListeners();
 

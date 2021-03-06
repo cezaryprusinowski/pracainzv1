@@ -36,32 +36,39 @@ public class InputData {
     }
 
     private int findFirstFlagIndex(){
-        boolean result = false;
+//        boolean result = false;
         byte[] bytes = new byte[32];
 
-        while(!result){
+        while(true){
             BitSet bytesLSBBitSet = new BitSet();
             inputContainerDataByteBuffer.get(bytes);
 
-
+            //pobieranie LSB z kolejnych bajtów
             for (int i=0; i < bytes.length; i++){
                 if (((bytes[i]) & 1) == 1)
                     bytesLSBBitSet.set(i);
             }
 
-            if ((inputContainerDataByteBuffer.position() == inputContainerDataByteBuffer.capacity())
-                    || inputContainerDataByteBuffer.position() > inputContainerDataByteBuffer.capacity()-bytes.length) {
-                break;
+            //jeśli połowa pliku została sprawdzona i nie znaleziono flagi to wyjdź
+            if (inputContainerDataByteBuffer.position() >= inputContainerDataByteBuffer.capacity()/2){
+                return 0;
             }
 
+//            if ((inputContainerDataByteBuffer.position() == inputContainerDataByteBuffer.capacity())
+//                    || inputContainerDataByteBuffer.position() > inputContainerDataByteBuffer.capacity()-bytes.length) {
+//                //break;
+//                result=true;
+//            }
+
+            //jeśli flaga została znaleziona to zwróć index bajta
             if (bytesLSBBitSet.equals(flagBitSet)) {
-                result = true;
                 return inputContainerDataByteBuffer.position();
             }
 
             inputContainerDataByteBuffer.position(inputContainerDataByteBuffer.position()-31);
         }
-        return 0;
+
+        //return 0;
     }
 
     private int findSecondFlagIndex(int firstFlagIndex){
