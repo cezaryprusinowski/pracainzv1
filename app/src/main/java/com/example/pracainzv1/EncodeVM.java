@@ -16,7 +16,7 @@ import java.nio.channels.WritableByteChannel;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class HideVM extends ViewModel {
+public class EncodeVM extends ViewModel {
     public MutableLiveData<ContainerFile> containerFileMutableLiveData;
     public MutableLiveData<TextFile> textFileMutableLiveData;
     ContainerFile containerFile;
@@ -25,7 +25,7 @@ public class HideVM extends ViewModel {
 //    private ContainerFile containerFile;
 
 
-    public HideVM() {
+    public EncodeVM() {
         containerFileMutableLiveData = new MutableLiveData<>();
         textFileMutableLiveData = new MutableLiveData<>();
     }
@@ -47,7 +47,7 @@ public class HideVM extends ViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public int hideMessageAndGenerateFile (File androidFilesDirectory) throws Exception {
+    public int hideMessageAndGenerateFile(File androidFilesDirectory) throws Exception {
 //        WriteLog imageFileDataOperations = new WriteLog(containerFile, textFile);
 //        imageFileDataOperations.run();
 
@@ -70,7 +70,7 @@ public class HideVM extends ViewModel {
                 outputData = null;
         }
 
-        if (outputData==null){
+        if (outputData == null) {
             return 1;
         }
 
@@ -86,21 +86,21 @@ public class HideVM extends ViewModel {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public String createOutputFileName(){
+    public String createOutputFileName() {
         String extension;
 
-        switch (containerFile.getFileType()){
+        switch (containerFile.getFileType()) {
             case AUDIO:
-                extension=".mp3";
+                extension = ".mp3";
                 break;
             case IMAGE:
-                extension=".jpg";
+                extension = ".jpg";
                 break;
             case VIDEO:
-                extension=".mp4";
+                extension = ".mp4";
                 break;
             default:
-                extension="";
+                extension = "";
         }
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");

@@ -1,16 +1,13 @@
 package com.example.pracainzv1;
 
-import android.net.Uri;
-
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 //public class ContainerFile extends File {
 public class TextFile {
-    
+
     private final String inFileName;
     private final FileInputStream inTextFileInputStream;
     private final byte[] inTextFileByteArray;
@@ -21,7 +18,7 @@ public class TextFile {
         inTextFileByteArray = IOUtils.toByteArray(inTextFileInputStream);
     }
 
-    public TextFile(String text){
+    public TextFile(String text) {
         inFileName = "temp";
         inTextFileInputStream = null;
         inTextFileByteArray = text.getBytes();

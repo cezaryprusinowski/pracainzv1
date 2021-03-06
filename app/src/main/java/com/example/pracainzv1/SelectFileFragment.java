@@ -1,20 +1,13 @@
 package com.example.pracainzv1;
 
 import android.app.Activity;
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.FileUtils;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,53 +17,42 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.pracainzv1.databinding.SelectFileFragmentBinding;
 
-import org.apache.commons.io.IOUtils;
-
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.ByteBuffer;
 import java.text.DecimalFormat;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class SelectFileFragment extends Fragment {
 
     private SelectFileFragmentBinding binding;
-    private HideVM hideVM;
-    private UnhideVM unhideVM;
+    private EncodeVM encodeVM;
+    private DecodeVM decodeVM;
     private static final int PICKFILE_RESULT_CODE = 1;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = SelectFileFragmentBinding.inflate(inflater,container,false);
-        hideVM = new ViewModelProvider(requireActivity()).get(HideVM.class);
-        unhideVM = new ViewModelProvider(requireActivity()).get(UnhideVM.class);
+        binding = SelectFileFragmentBinding.inflate(inflater, container, false);
+        encodeVM = new ViewModelProvider(requireActivity()).get(EncodeVM.class);
+        decodeVM = new ViewModelProvider(requireActivity()).get(DecodeVM.class);
 
-        hideVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data ->{
-            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/")+1);
+        encodeVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data -> {
+            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/") + 1);
             binding.tvSelectFileFragmentFileNameDetails.setText(fileName);
 
             DecimalFormat df = new DecimalFormat("0.00");
             float fileSizeByte = data.getInContainerFileByteArray().length;
-            double fileSizeMB = fileSizeByte/1000000;
+            double fileSizeMB = fileSizeByte / 1000000;
             String fileSize = df.format(fileSizeMB) + " MB";
             binding.tvSelectFileFragmentFileSizeDetails.setText(fileSize);
         });
 
-        unhideVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data ->{
-            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/")+1);
+        decodeVM.containerFileMutableLiveData.observe(getViewLifecycleOwner(), data -> {
+            String fileName = data.getInFileName().substring(data.getInFileName().lastIndexOf("/") + 1);
             binding.tvSelectFileFragmentFileNameDetails.setText(fileName);
 
             DecimalFormat df = new DecimalFormat("0.00");
             float fileSizeByte = data.getInContainerFileByteArray().length;
-            double fileSizeMB = fileSizeByte/1000000;
+            double fileSizeMB = fileSizeByte / 1000000;
             String fileSize = df.format(fileSizeMB) + " MB";
             binding.tvSelectFileFragmentFileSizeDetails.setText(fileSize);
         });
@@ -119,18 +101,17 @@ public class SelectFileFragment extends Fragment {
         if (requestCode == PICKFILE_RESULT_CODE && resultCode == Activity.RESULT_OK){
             Uri uri = data.getData();
 
-            if (getActivity() instanceof HideActivity){
+            if (getActivity() instanceof EncodeActivity) {
                 try {
                     FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
-                    hideVM.setContainerFile(uri.getLastPathSegment(),fileInputStream);
+                    encodeVM.setContainerFile(uri.getLastPathSegment(), fileInputStream);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
-            else if (getActivity() instanceof UnhideActivity){
+            } else if (getActivity() instanceof DecodeActivity) {
                 try {
                     FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
-                    unhideVM.setContainerFile(uri.getLastPathSegment(),fileInputStream);
+                    decodeVM.setContainerFile(uri.getLastPathSegment(), fileInputStream);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

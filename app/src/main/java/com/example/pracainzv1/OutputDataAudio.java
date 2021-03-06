@@ -3,11 +3,11 @@ package com.example.pracainzv1;
 import java.nio.ByteBuffer;
 import java.util.BitSet;
 
-public class OutputDataAudio extends OutputData{
+public class OutputDataAudio extends OutputData {
     private final ByteBuffer inputContainerDataByteBuffer;
     private final ByteBuffer inputTextDataByteBuffer;
-    private ByteBuffer messageWithFlagsByteBuffer;
     private final byte[] messageFlag = "FLAG".getBytes();
+    private ByteBuffer messageWithFlagsByteBuffer;
     private int endOfMetadataIndex;
 
 
@@ -27,19 +27,19 @@ public class OutputDataAudio extends OutputData{
         return hideMessageDataInContainerData();
     }
 
-    private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer){
-        
+    private int findEndOfImageMetadataIndex(ByteBuffer byteBuffer) {
+
         return 32;
     }
 
-    private ByteBuffer addFlagsToMessageData (ByteBuffer byteBuffer){
+    private ByteBuffer addFlagsToMessageData(ByteBuffer byteBuffer) {
         return ByteBuffer.allocate(byteBuffer.remaining() + messageFlag.length + messageFlag.length)
                 .put(messageFlag)
                 .put(byteBuffer)
                 .put(messageFlag);
     }
 
-    private ByteBuffer hideMessageDataInContainerData(){
+    private ByteBuffer hideMessageDataInContainerData() {
 
         byte[] messageBytes = new byte[messageWithFlagsByteBuffer.position(0).remaining()];
         messageWithFlagsByteBuffer
@@ -48,16 +48,16 @@ public class OutputDataAudio extends OutputData{
         BitSet messageWithFlagsBitSet = BitSet.valueOf(messageBytes);
 
         byte[] necessaryContainerBytes = new byte[inputContainerDataByteBuffer
-                                                    .position(endOfMetadataIndex)
-                                                    .limit(endOfMetadataIndex+messageBytes.length*8)
-                                                    .remaining()];
+                .position(endOfMetadataIndex)
+                .limit(endOfMetadataIndex + messageBytes.length * 8)
+                .remaining()];
         inputContainerDataByteBuffer
                 .get(necessaryContainerBytes)
                 .position(endOfMetadataIndex)
-                .limit(endOfMetadataIndex+messageBytes.length*8);
+                .limit(endOfMetadataIndex + messageBytes.length * 8);
 
-        for (int i=0; i<necessaryContainerBytes.length; i++){
-            if(messageWithFlagsBitSet.get(i))
+        for (int i = 0; i < necessaryContainerBytes.length; i++) {
+            if (messageWithFlagsBitSet.get(i))
                 //zamiana ostatniego bitu na 1
                 necessaryContainerBytes[i] = (byte) (necessaryContainerBytes[i] | (1));
             else
@@ -66,11 +66,11 @@ public class OutputDataAudio extends OutputData{
         }
 
         ByteBuffer byteBuffer = ByteBuffer.allocate(inputContainerDataByteBuffer
-                                                        .position(0)
-                                                        .limit(inputContainerDataByteBuffer.capacity())
-                                                        .remaining());
+                .position(0)
+                .limit(inputContainerDataByteBuffer.capacity())
+                .remaining());
         byteBuffer.put(inputContainerDataByteBuffer);
-        byteBuffer.position(endOfMetadataIndex).limit(endOfMetadataIndex+messageBytes.length*8);
+        byteBuffer.position(endOfMetadataIndex).limit(endOfMetadataIndex + messageBytes.length * 8);
         byteBuffer.put(necessaryContainerBytes);
         byteBuffer.position(0).limit(inputContainerDataByteBuffer.capacity());
 

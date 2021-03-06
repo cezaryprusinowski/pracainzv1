@@ -26,7 +26,7 @@ public class MenuActivity extends Activity {
         binding.btnMenuHide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this,HideActivity.class);
+                Intent intent = new Intent(MenuActivity.this, EncodeActivity.class);
                 startActivity(intent);
             }
         });
@@ -34,7 +34,7 @@ public class MenuActivity extends Activity {
         binding.btnMenuUnhide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MenuActivity.this, UnhideActivity.class);
+                Intent intent = new Intent(MenuActivity.this, DecodeActivity.class);
                 startActivity(intent);
             }
         });

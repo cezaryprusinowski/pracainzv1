@@ -3,11 +3,6 @@ package com.example.pracainzv1;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.annotation.RequiresApi;
-
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.stream.IntStream;
 
@@ -15,20 +10,22 @@ public class WriteLog {
 //    ByteBuffer InputImageDataByteBuffer;
 //    ByteBuffer InputTextDataByteBuffer;
 
-    public WriteLog() {}
+    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 
-    public void logBitSetAsBinaryString(BitSet bitSet){
-        int nbits= bitSet.size();
+    public WriteLog() {
+    }
+
+    public void logBitSetAsBinaryString(BitSet bitSet) {
+        int nbits = bitSet.size();
         final StringBuilder buffer = new StringBuilder(nbits);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             IntStream.range(0, nbits).mapToObj(i -> bitSet.get(i) ? '1' : '0').forEach(buffer::append);
         }
         String string = buffer.toString();
-        Log.v("logBitSetAsBinaryString",string);
+        Log.v("logBitSetAsBinaryString", string);
     }
 
-    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-    public void logByteArrayAsHexString(byte[] bytes){
+    public void logByteArrayAsHexString(byte[] bytes) {
         char[] hexChars = new char[bytes.length * 2];
         for (int j = 0; j < bytes.length; j++) {
             int v = bytes[j] & 0xFF;
@@ -39,10 +36,10 @@ public class WriteLog {
         Log.v("logByteArrayAsHexString", string);
     }
 
-    public void logByteAsBinaryString(byte b){
+    public void logByteAsBinaryString(byte b) {
         String string = Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
 
-        Log.v("logByteAsBinaryString",string);
+        Log.v("logByteAsBinaryString", string);
     }
 
 //
@@ -145,7 +142,6 @@ public class WriteLog {
 //
 //        return new String(result);
 //    }
-
 
 
 }

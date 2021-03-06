@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,14 +26,14 @@ public class SelectTextFragment extends Fragment {
 
 
     private SelectTextFragmentBinding binding;
-    private HideVM hideVM;
+    private EncodeVM encodeVM;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = SelectTextFragmentBinding.inflate(inflater,container,false);
-        hideVM = new ViewModelProvider(requireActivity()).get(HideVM.class);
-        hideVM.setTextFile("");
+        binding = SelectTextFragmentBinding.inflate(inflater, container, false);
+        encodeVM = new ViewModelProvider(requireActivity()).get(EncodeVM.class);
+        encodeVM.setTextFile("");
         setListeners();
 
         return binding.getRoot();
@@ -55,7 +54,7 @@ public class SelectTextFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 //                Log.v("asd", String.valueOf(s));
-                hideVM.setTextFile(String.valueOf(s));
+                encodeVM.setTextFile(String.valueOf(s));
             }
         });
 //        binding.btnTextFile.setOnClickListener(v -> {
@@ -76,7 +75,7 @@ public class SelectTextFragment extends Fragment {
             Uri uri = data.getData();
             try {
                 FileInputStream fileInputStream = (FileInputStream) getActivity().getContentResolver().openInputStream(uri);
-                hideVM.setTextFile(uri.getLastPathSegment(),fileInputStream);
+                encodeVM.setTextFile(uri.getLastPathSegment(), fileInputStream);
             } catch (IOException e) {
                 e.printStackTrace();
             }
